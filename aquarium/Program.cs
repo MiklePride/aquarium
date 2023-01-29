@@ -23,6 +23,11 @@ class Aquarium
 
     public void Start()
     {
+        const int CommandKey1 = 1;
+        const int CommandKey2 = 2;
+        const int CommandKey3 = 3;
+        const int CommandKey4 = 4;
+
         Console.WriteLine("Добро подаловать в аквариум!");
 
         while (_isWork)
@@ -35,20 +40,20 @@ class Aquarium
                 "3. Следующий день\n" +
                 "4. Выход\n");
 
-            string userInput = Console.ReadLine();
+            int userInput = UserUtils.GetNumber();
 
             switch (userInput)
             {
-                case "1":
+                case CommandKey1:
                     AddFish();
                     break;
-                case "2":
+                case CommandKey2:
                     DeleteFish();
                     break;
-                case "3":
+                case CommandKey3:
                     GoNextDay();
                     break;
-                case "4":
+                case CommandKey4:
                     _isWork = false;
                     break;
             }
@@ -67,9 +72,9 @@ class Aquarium
 
             Console.WriteLine($"рыб в аквариуме {fishCount} из {_maximumFish}");
 
-            foreach (Fish f in _fish)
+            foreach (Fish fish in _fish)
             {
-                f.ShowInfo();
+                fish.ShowInfo();
             }
         }
     }
@@ -103,12 +108,12 @@ class Aquarium
             bool isWork = true;
             int fishIndex = 0;
 
-            foreach (Fish f in _fish)
+            foreach (Fish fish in _fish)
             {
                 fishIndex++;
 
                 Console.Write(fishIndex);
-                f.ShowInfo();
+                fish.ShowInfo();
             }
 
             Console.WriteLine("Введите номер рыбки, которую хотите убрать: ");
@@ -137,9 +142,9 @@ class Aquarium
     {
         if (_fish.Count > 0)
         {
-            foreach (Fish f in _fish)
+            foreach (Fish fish in _fish)
             {
-                f.GrowOld();
+                fish.GrowOld();
             }
         }
         else
@@ -151,13 +156,11 @@ class Aquarium
 
 class Fish
 {
-    private static Random random = new Random();
+    private static Random _random = new Random();
 
     private string _name;
     private int _health;
     private int _obsolescence = 1;
-
-    public bool IsAlive { get; private set; }
 
     public Fish(string name)
     {
@@ -165,9 +168,11 @@ class Fish
         int maximumHealth = 16;
 
         _name = name;
-        _health = random.Next(minimumHealth, maximumHealth);
+        _health = _random.Next(minimumHealth, maximumHealth);
         IsAlive = true;
     }
+
+    public bool IsAlive { get; private set; }
 
     public void ShowInfo()
     {
@@ -200,7 +205,7 @@ static class UserUtils
 
         while (isNumberWork)
         {
-            bool isNumber = true;
+            bool isNumber;
             string userInput = Console.ReadLine();
 
             if (isNumber = int.TryParse(userInput, out int number))
