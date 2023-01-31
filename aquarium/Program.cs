@@ -23,10 +23,10 @@ class Aquarium
 
     public void Start()
     {
-        const int CommandKey1 = 1;
-        const int CommandKey2 = 2;
-        const int CommandKey3 = 3;
-        const int CommandKey4 = 4;
+        const int AddFishCommand = 1;
+        const int RemoveFishCommand = 2;
+        const int NextDayCommand = 3;
+        const int ExitCommand = 4;
 
         Console.WriteLine("Добро подаловать в аквариум!");
 
@@ -35,25 +35,25 @@ class Aquarium
             ShowInfoFish();
 
             Console.WriteLine("Выберите действие:\n" +
-                "1. Добавить рыбку.\n" +
-                "2. Убрать рыбку.\n" +
-                "3. Следующий день\n" +
-                "4. Выход\n");
+                $"{AddFishCommand}. Добавить рыбку.\n" +
+                $"{RemoveFishCommand}. Убрать рыбку.\n" +
+                $"{NextDayCommand}. Следующий день\n" +
+                $"{ExitCommand}. Выход\n");
 
             int userInput = UserUtils.GetNumber();
 
             switch (userInput)
             {
-                case CommandKey1:
+                case AddFishCommand:
                     AddFish();
                     break;
-                case CommandKey2:
+                case RemoveFishCommand:
                     DeleteFish();
                     break;
-                case CommandKey3:
+                case NextDayCommand:
                     GoNextDay();
                     break;
-                case CommandKey4:
+                case ExitCommand:
                     _isWork = false;
                     break;
             }
@@ -68,9 +68,7 @@ class Aquarium
         }
         else
         {
-            int fishCount = _fish.Count;
-
-            Console.WriteLine($"рыб в аквариуме {fishCount} из {_maximumFish}");
+            Console.WriteLine($"рыб в аквариуме {_fish.Count} из {_maximumFish}");
 
             foreach (Fish fish in _fish)
             {
